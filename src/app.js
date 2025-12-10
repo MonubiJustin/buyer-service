@@ -16,6 +16,11 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
 
+// health
+app.get("/health", (req, res) => {
+    res.send("app is healthy...")
+})
+
 // start database
 db();
 
