@@ -1,0 +1,54 @@
+<head>
+    <title>Application Health Check</title>
+    <style>
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+        }
+
+        .status-healthy{
+            color: green;
+        }
+
+        .status-unhealthy{
+            color: red;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 50%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Application Health Status</h1>
+    <p>Overall Status: <strong class="<%= health.status === 'OK' ? 'status-healthy' : 'status-unhealthy' %>"><%= health.status %></strong></p>
+
+    <h2>Service Details</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Service Name</th>
+                <th>Status</th>
+                <th>Response Time (ms)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- loop through the services array passed from the server -->
+             <% health.services.forEach(service => { %>
+                <tr>
+                    <td><%= service.name %></td>
+                    <td class="<%= service.health === 'OK'? 'service-healthy' : 'service-unhealthy' %>"><%= service.status %></td>
+                    <td><%= service.responseTimeMs %></td>
+                </tr>
+                <% }); %>
+        </tbody>
+    </table>
+
+</body>

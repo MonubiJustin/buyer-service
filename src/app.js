@@ -7,6 +7,9 @@ import morgan from "morgan";
 import { notFound } from "./middleware/notFound.js";
 import users from "./routes/userRoute.js";
 import orders from "./routes/orderRoute.js";
+import path from "path";
+import { fileURLToPath } from "url";
+import health from "./routes/health.js"
 
 dotenv.config();
 const app = express();
@@ -16,15 +19,20 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
 
-// health
-app.get("/health", (req, res) => {
-    res.send("app is healthy...")
-})
+// set templating engine
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+
+
 
 // start database
 db();
 
 // endpoints
+app.use("/health", health);
 app.use("/api/users/", users);
 app.use("/api/orders", orders);
 
